@@ -63,3 +63,21 @@ variable "settings" {
   description   = "List of maps for the configuration options"
   default       = []
 }
+
+variable "vpc_name" {
+  type          = string
+  description   = "Name of the VPC to use in lookup"
+  default       = ""
+}
+
+variable "environment_type" {
+  type          = string
+  description   = "Whether to spin up a load balancer or not"
+  default       = "SingleInstance"
+}
+
+variable "key_name" {
+  type          = string
+  description   = "Instance SSH key"
+  default       = ""
+}

@@ -22,6 +22,42 @@ resource "aws_elastic_beanstalk_environment" "this" {
 
   tags = var.tags
 
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "VPCId"
+    value     = data.aws_vpc.selected.id
+  }
+
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "Subnets"
+    value     = join(",", local.subnets.ids)
+  }
+
+  setting {
+    namespace = "aws:ec2:vpc"
+    name      = "ELBSubnets"
+    value     = join(",", local.elb_subnets.ids)
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "EnvironmentType"
+    value     = var.environment_type
+  }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "EC2KeyName"
+    value     = var.key_name
+  }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "IamInstanceProfile"
+    value     = "aws-elasticbeanstalk-ec2-role"
+  }
+
   dynamic "setting" {
     for_each = var.settings
 
